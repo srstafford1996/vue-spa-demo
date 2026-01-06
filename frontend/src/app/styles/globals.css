@@ -1,0 +1,27 @@
+/*
+// app/styles/globals.css
+//
+// Global style rules, variables go in variables.css
+*/
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+button {
+    border: none;
+    color: inherit;
+    background: inherit;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover {
+    cursor: pointer;
+}

@@ -4,8 +4,8 @@ const dashboardRoutes : RouteRecordRaw[] = [
     {
         path: '/',
         name: 'dashboard.main',
-        component: () => import('./pages/DashboardPage.vue'),
-        meta: { requiresAuth: true }
+        component: () => import('./pages/TwitterDashboard.vue'),
+        meta: { requiresAuth: true, layout: 'dashboard' }
     }
 ]
 

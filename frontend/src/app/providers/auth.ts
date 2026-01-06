@@ -1,19 +1,25 @@
+/*
+// app/providers/auth.ts
+// 
+// Authenitciation provider definition. In a serious app, this is where session management and auth refreshing would go.
+// Since this is a demo app, we're doing OAuth things inside the SPA...not recommended.
+*/
+
 export type AuthEvent = { type: 'login' } | { type: 'logout' }
 
 export interface AuthProvider {
-    isAuthenticated(): boolean
-
-    startLogin(): Promise<void>
-
-    handleTwitterCallback(url: URL): Promise<boolean>
-
     listen(listener: (state: AuthEvent) => void): () => void
+    startLogin(): Promise<void>
+    startLogout(): Promise<void>
+    isAuthenticated(): boolean
+    getSessionToken(): null | string
+    handleTwitterCallback(url: URL): Promise<boolean>
 }
 
 export function createAuthProvider(): AuthProvider {
-    let sessionToken: null | string = localStorage.getItem('session_token')
+    let sessionToken: null | string = sessionStorage.getItem('session_token')
     let authComplete: null | boolean;
-    if (localStorage.getItem('is_authorized') === 'true') {
+    if (sessionStorage.getItem('is_authorized') === 'true') {
         authComplete = true
     }
 
@@ -29,6 +35,11 @@ export function createAuthProvider(): AuthProvider {
             return !!sessionToken && !!authComplete
         },
 
+        listen(listener: (state: AuthEvent) => void) {
+            listeners.add(listener)
+            return () => listeners.delete(listener)
+        },
+
         async startLogin() {
             const res = await fetch('/api/login/url')
             if (res.status != 200) {
@@ -42,9 +53,15 @@ export function createAuthProvider(): AuthProvider {
             const { authUrl, sessionKey } = await res.json() as { authUrl: string; sessionKey: string }
 
             sessionToken = sessionKey
-            localStorage.setItem('session_token', sessionKey)
+            sessionStorage.setItem('session_token', sessionKey)
 
             window.location.assign(authUrl)
+        },
+
+        async startLogout() {
+            // This is where I would request a logout in a real application
+            // but this is a demo so let's just clear the session storage
+            sessionStorage.clear()
         },
 
         async handleTwitterCallback(url: URL) {
@@ -52,7 +69,6 @@ export function createAuthProvider(): AuthProvider {
                 const code = url.searchParams.get('code')
                 if (!code) {
                     // More error handling
-                    // probably a redirect
                     return false
                 }
                 console.log(JSON.stringify({
@@ -79,7 +95,7 @@ export function createAuthProvider(): AuthProvider {
                 }
 
                 authComplete = true
-                localStorage.setItem('is_authorized', 'true')
+                sessionStorage.setItem('is_authorized', 'true')
 
                 notifyListeners({ type: 'login' })
                 return true
@@ -89,9 +105,8 @@ export function createAuthProvider(): AuthProvider {
             }
         },
 
-        listen(listener: (state: AuthEvent) => void) {
-            listeners.add(listener)
-            return () => listeners.delete(listener)
+        getSessionToken() {
+            return sessionToken
         }
    }
 

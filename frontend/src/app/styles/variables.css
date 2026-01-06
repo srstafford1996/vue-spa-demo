@@ -1,0 +1,11 @@
+/*
+// app/styles/variables.css
+//
+// Global CSS Variables
+*/ 
+
+:root {
+    --default-black: #000;
+    --default-white: #FFF;
+    --primary-faded: #2F2F2F;
+}

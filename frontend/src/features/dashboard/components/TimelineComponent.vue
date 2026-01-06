@@ -1,0 +1,94 @@
+<!-- 
+ -- features/dashboard/components/TwitterTimleine.vue 
+ -- 
+ -- Dashboard component for timeline view 
+ -->
+
+<script setup lang="ts">
+    import { useTwitterStore } from '../stores/twitter.store';
+
+    const store = useTwitterStore()
+</script>
+
+<template>
+    <div v-if="store.timeline != null">
+        <ul class="twitter-timeline">
+            <li class="twitter-post" v-for="tweet in store.timeline.tweets">
+                <div class="post-pfp">
+                    <img v-bind:src="store.userInfo?.profile_image_url" />
+                </div>
+                <div class="post-content">
+                    <div class="post-header">
+                        <span>{{ store.userInfo?.name }}</span>
+                        <span>@{{ store.userInfo?.username }}</span>
+                        <span> · </span>
+                        <span>{{ tweet.created_at }}</span>
+                    </div>
+                    <div class="post-text">
+                        {{ tweet.text }}
+                    </div>
+                    <div class="post-metrics">
+                        <span>{{ tweet.public_metrics.reply_count }} Replies</span>
+                        <span>{{ tweet.public_metrics.retweet_count }} Retweets</span>
+                        <span>{{ tweet.public_metrics.like_count }} Likes</span>
+                        <span>{{ tweet.public_metrics.impression_count }} Views</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<style lang="css" scoped>
+    .twitter-timeline {
+        display: flex;
+        flex-direction: column;
+
+        max-width: 640px;
+        margin: 0 auto;
+        
+        border-width: 1px 1px 0px 1px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, .4);
+    }
+
+    .twitter-post {
+        display: flex;
+        flex-direction: row;
+
+        padding: 8px;
+        width: 100%;
+
+        border-bottom: 1px solid rgba(0, 0, 0, .4);
+    }
+
+    .post-pfp > img {
+        border-radius: 50%;
+    }
+
+    .post-content {
+        padding-left: 9px;
+        width: 100%;
+    }
+
+    .post-content > * {
+        width: 100%;
+    }
+
+    .post-header {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .post-text {
+        padding: 8px 0px;
+    }
+
+    .post-metrics {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+</style>

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "debug": "vue-tsc -b && vite build --sourcemap",
+    "debug": "vue-tsc -b && vite build --sourcemap --watch",
     "preview": "vite preview"
   },
   "dependencies": {

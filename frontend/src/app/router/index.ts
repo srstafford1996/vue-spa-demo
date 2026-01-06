@@ -1,3 +1,9 @@
+/*
+// app/router/index.ts
+//
+// Import routes and define global guards here. 
+*/
+
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { loginRoutes } from '@/features/login'
 import { dashboardRoutes } from '@/features/dashboard'
