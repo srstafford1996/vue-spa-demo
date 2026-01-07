@@ -1,6 +1,15 @@
 <!-- src/layouts/DashboardLayout.vue -->
 <script setup lang="ts">
+    import { useAuthStore } from '@/app/store/auth.store';
+    import { useRouter } from 'vue-router';
 
+    const router = useRouter()
+    const authStore = useAuthStore()
+
+    function doLogout() {
+        authStore.logout() 
+        router.go(0);
+    }
 </script>
 
 <template>
@@ -12,7 +21,9 @@
                     <h1>Poster</h1>
                 </div>
                 <div class="header-nav">
-                    <button class="logout-button">Logout</button>
+                    <button 
+                        v-on:click="doLogout"
+                        class="logout-button">Logout</button>
                 </div>
             </div>
         </header>
@@ -68,6 +79,7 @@
 
     .header-title > h1 {
         font-size: 64px;
+        line-height: 102px;
     }
 
     .header-nav {
@@ -83,5 +95,4 @@
     .logout-button:hover {
         background-color: var(--primary-faded);
     }
-
 </style>

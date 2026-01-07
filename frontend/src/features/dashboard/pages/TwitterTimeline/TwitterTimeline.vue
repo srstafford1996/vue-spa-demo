@@ -1,11 +1,10 @@
-<!-- 
- -- features/dashboard/components/TwitterTimleine.vue 
- -- 
- -- Dashboard component for timeline view 
- -->
-
+<!-- features/dashboard/components/TwitterTimleine.vue 
+ --
+ -- Dashboard component for timeline view
+-->
 <script setup lang="ts">
-    import { useTwitterStore } from '../stores/twitter.store';
+    import { useTwitterStore } from '../../stores/twitter.store';
+    import { parseUInumber, parseUIDate } from '@/shared/util';
 
     const store = useTwitterStore()
 </script>
@@ -20,18 +19,18 @@
                 <div class="post-content">
                     <div class="post-header">
                         <span>{{ store.userInfo?.name }}</span>
-                        <span>@{{ store.userInfo?.username }}</span>
-                        <span> · </span>
-                        <span>{{ tweet.created_at }}</span>
+                        <span class="post-header-subinfo">@{{ store.userInfo?.username }}</span>
+                        <span class="post-header-subinfo"> · </span>
+                        <span class="post-header-subinfo">{{ parseUIDate(tweet.created_at) }}</span>
                     </div>
                     <div class="post-text">
                         {{ tweet.text }}
                     </div>
                     <div class="post-metrics">
-                        <span>{{ tweet.public_metrics.reply_count }} Replies</span>
-                        <span>{{ tweet.public_metrics.retweet_count }} Retweets</span>
-                        <span>{{ tweet.public_metrics.like_count }} Likes</span>
-                        <span>{{ tweet.public_metrics.impression_count }} Views</span>
+                        <span>{{ parseUInumber(tweet.public_metrics.reply_count, ['Reply', 'Replies']) }}</span>
+                        <span>{{ parseUInumber(tweet.public_metrics.retweet_count, ['Retweet', 'Retweets']) }}</span>
+                        <span>{{ parseUInumber(tweet.public_metrics.like_count, ['Like', 'Likes']) }}</span>
+                        <span>{{ parseUInumber(tweet.public_metrics.impression_count, ['View', 'Views']) }}</span>
                     </div>
                 </div>
             </li>
@@ -78,9 +77,13 @@
     .post-header {
         display: flex;
         flex-direction: row;
+        align-items: center;
         gap: 5px;
     }
-
+    
+    .post-header-subinfo {
+        font-size: 15px;
+    }
     .post-text {
         padding: 8px 0px;
     }
@@ -90,5 +93,7 @@
         flex-direction: row;
         justify-content: space-between;
     }
+
+    
 
 </style>

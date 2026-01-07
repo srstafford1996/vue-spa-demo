@@ -26,6 +26,9 @@ export const useAuthStore = defineStore('auth', () => {
     })
 
     return {
-        isAuthenticated
+        isAuthenticated,
+        logout() {
+            authProvider.startLogout()
+        }
     }
 })

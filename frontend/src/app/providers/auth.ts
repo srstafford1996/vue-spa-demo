@@ -59,7 +59,7 @@ export function createAuthProvider(): AuthProvider {
         },
 
         async startLogout() {
-            // This is where I would request a logout in a real application
+            // This is where I would hit a logout endpoint in a real application
             // but this is a demo so let's just clear the session storage
             sessionStorage.clear()
         },

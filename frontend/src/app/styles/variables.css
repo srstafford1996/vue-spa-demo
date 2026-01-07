@@ -7,5 +7,7 @@
 :root {
     --default-black: #000;
     --default-white: #FFF;
-    --primary-faded: #2F2F2F;
+    --default-faded: #2F2F2F;
+
+    --primary-faded: rgba(100,100,100, 0.4);
 }

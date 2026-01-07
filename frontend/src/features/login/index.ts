@@ -1,3 +1,9 @@
+/*
+// features/login/index.ts
+//
+// Expose login routes to the app
+*/
+
 import type { RouteRecordRaw } from 'vue-router'
 
 const loginRoutes : RouteRecordRaw[] = [
