@@ -1,27 +1,24 @@
 <!-- features/login/components/OauthHandler.vue -->
-<script setup lang="ts">
-    import { inject, onMounted } from 'vue';
-    import { useRouter } from 'vue-router';
-
+<script lang="ts">
     import { type AuthProvider } from '@/app/providers/auth';
     
-    const authProvider = inject<AuthProvider>('auth')!
-    const router = useRouter()
-        
-    onMounted(() => {
-        async function handle() {
-            const success = await authProvider.handleTwitterCallback(new URL(window.location.href))
-
-            if (success) {
-                router.push({ name: 'dashboard.main' })
-            } else {
-                router.push({ name: 'login.main' })
+    export default {
+        inject: {
+            authProvider: { from: 'auth' }
+        },
+        mounted() {
+            const handle = async () => {
+                const success = await (this.authProvider as AuthProvider).handleTwitterCallback(new URL(window.location.href))
+                if (success) {
+                    this.$router.push({ name: 'dashboard.main' })
+                } else {
+                    this.$router.push({ name: 'login.main' })
+                }
             }
+
+            handle()
         }
-
-        handle()
-    })
-
+    }
 </script>
 
 <template>

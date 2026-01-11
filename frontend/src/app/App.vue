@@ -1,22 +1,21 @@
 <!-- app/App.vue  -->
-<script setup lang="ts">
-    import { computed } from "vue"
-    import { useRoute } from "vue-router"
-
+<script lang="ts">
     import DashboardLayout from "@/layouts/DashboardLayout.vue"
     import LoginLayout from "@/layouts/LoginLayout.vue"
 
-    const route = useRoute()
+    export default {
+        computed: {
+            layout() {
+                const name = this.$route.meta.layout as string | undefined
 
-    const layout = computed(() => {
-        const name = route.meta.layout as string | undefined
+                if (name === 'dashboard') {
+                    return DashboardLayout
+                }
 
-        if (name === 'dashboard') {
-            return DashboardLayout
+                return LoginLayout
+            }
         }
-
-        return LoginLayout
-    })
+    }
 
 </script>
 

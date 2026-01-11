@@ -1,12 +1,16 @@
 <!-- features/login/pages/LoginPage.vue -->
-<script setup lang="ts">
-    import { inject } from 'vue'
+<script lang="ts">
     import { type AuthProvider } from '@/app/providers/auth'
 
-    const authProvider = inject<AuthProvider>('auth')!
-
-    function beginLogin() {
-        authProvider.startLogin()
+    export default {
+        inject: { 
+            authProvider: 'auth'
+        },
+        methods: {
+            beginLogin() {
+                (this.authProvider as AuthProvider).startLogin()
+            }
+        }
     }
 </script>
 

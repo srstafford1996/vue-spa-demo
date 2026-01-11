@@ -1,12 +1,17 @@
 <!-- features/dashboard/components/ProfileComponent.vue -->
-<script setup lang="ts">
-    import { useTwitterStore } from '../../stores/twitter.store';
-    import { parseUInumber } from '@/shared/util';
+<script lang="ts">
+    import { mapStores } from 'pinia';
 
-    const store = useTwitterStore()
-    
-    if (!store.timeline) {
-        store.loadTimeline()
+    import { useTwitterStore } from '../../stores/twitter.store';
+    import { parseUINumber } from '@/shared/util';
+
+    export default {
+        computed: {
+            ...mapStores(useTwitterStore)
+        },
+        methods: {
+            parseUINumber
+        }
     }
 
 </script>
@@ -15,20 +20,20 @@
     <div class="profile-view">
         <div class="profile-header">
             <div class="pfp-container">
-                <img :src="store.userInfo?.profile_image_url" />
+                <img :src="twitterStore.userInfo?.profile_image_url" />
             </div>
-            <h1>{{ store.userInfo?.name }}</h1>
-            <span>@{{ store.userInfo?.username }}</span>
+            <h1>{{ twitterStore.userInfo?.name }}</h1>
+            <span>@{{ twitterStore.userInfo?.username }}</span>
         </div>
         <div class="profile-metrics">
             <div class="profile-metric">
-                <h2>{{ parseUInumber(store.userInfo?.public_metrics.following_count) }}</h2> <span>Following</span>
+                <h2>{{ parseUINumber(twitterStore.userInfo?.public_metrics.following_count) }}</h2> <span>Following</span>
             </div>
             <div class="profile-metric">
-                <h2>{{ parseUInumber(store.userInfo?.public_metrics.followers_count) }}</h2> <span>Followers</span>
+                <h2>{{ parseUINumber(twitterStore.userInfo?.public_metrics.followers_count) }}</h2> <span>Followers</span>
             </div>
             <div class="profile-metric">
-                <h2>{{ parseUInumber(store.userInfo?.public_metrics.tweet_count) }}</h2> <span>Tweets</span>
+                <h2>{{ parseUINumber(twitterStore.userInfo?.public_metrics.tweet_count) }}</h2> <span>Tweets</span>
             </div>
         </div>
     </div>

@@ -1,11 +1,19 @@
 <!-- features/dashboard/pages/TwitterDashboard.vue -->
-<script setup lang="ts">
+<script lang="ts">
+    import { mapStores } from 'pinia';
     import { RouterView } from 'vue-router';
     import { useTwitterStore } from '../stores/twitter.store';
 
-    
-    const store = useTwitterStore()
-    store.loadTimeline()
+    export default {
+        computed: {
+            ...mapStores(useTwitterStore)
+        },
+        created() {
+            if (!this.twitterStore.timeline) {
+                this.twitterStore.loadTimeline()
+            }
+        }
+    }
     
 </script>
 

@@ -1,14 +1,18 @@
 <!-- src/layouts/DashboardLayout.vue -->
-<script setup lang="ts">
+<script lang="ts">
     import { useAuthStore } from '@/app/store/auth.store';
-    import { useRouter } from 'vue-router';
+    import { mapStores } from 'pinia';
 
-    const router = useRouter()
-    const authStore = useAuthStore()
-
-    function doLogout() {
-        authStore.logout() 
-        router.go(0);
+    export default {
+        computed: {
+            ...mapStores(useAuthStore)
+        },
+        methods: {
+            doLogout() {
+                this.authStore.logout()        
+                this.$router.go(0)
+            }
+        }
     }
 </script>
 

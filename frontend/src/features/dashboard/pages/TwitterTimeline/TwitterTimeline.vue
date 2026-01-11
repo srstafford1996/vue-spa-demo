@@ -2,24 +2,34 @@
  --
  -- Dashboard component for timeline view
 -->
-<script setup lang="ts">
+<script lang="ts">
+    import { mapStores } from 'pinia';
     import { useTwitterStore } from '../../stores/twitter.store';
-    import { parseUInumber, parseUIDate } from '@/shared/util';
+    import { parseUINumber, parseUIDate } from '@/shared/util';
 
-    const store = useTwitterStore()
+
+    export default {
+        computed: {
+            ...mapStores(useTwitterStore)
+        },
+        methods: {
+            parseUINumber,
+            parseUIDate
+        }
+    }
 </script>
 
 <template>
-    <div v-if="store.timeline != null">
+    <div v-if="twitterStore.timeline != null">
         <ul class="twitter-timeline">
-            <li class="twitter-post" v-for="tweet in store.timeline.tweets">
+            <li class="twitter-post" v-for="tweet in twitterStore.timeline.tweets">
                 <div class="post-pfp">
-                    <img v-bind:src="store.userInfo?.profile_image_url" />
+                    <img v-bind:src="twitterStore.userInfo?.profile_image_url" />
                 </div>
                 <div class="post-content">
                     <div class="post-header">
-                        <span>{{ store.userInfo?.name }}</span>
-                        <span class="post-header-subinfo">@{{ store.userInfo?.username }}</span>
+                        <span>{{ twitterStore.userInfo?.name }}</span>
+                        <span class="post-header-subinfo">@{{ twitterStore.userInfo?.username }}</span>
                         <span class="post-header-subinfo"> · </span>
                         <span class="post-header-subinfo">{{ parseUIDate(tweet.created_at) }}</span>
                     </div>
@@ -27,10 +37,10 @@
                         {{ tweet.text }}
                     </div>
                     <div class="post-metrics">
-                        <span>{{ parseUInumber(tweet.public_metrics.reply_count, ['Reply', 'Replies']) }}</span>
-                        <span>{{ parseUInumber(tweet.public_metrics.retweet_count, ['Retweet', 'Retweets']) }}</span>
-                        <span>{{ parseUInumber(tweet.public_metrics.like_count, ['Like', 'Likes']) }}</span>
-                        <span>{{ parseUInumber(tweet.public_metrics.impression_count, ['View', 'Views']) }}</span>
+                        <span>{{ parseUINumber(tweet.public_metrics.reply_count, ['Reply', 'Replies']) }}</span>
+                        <span>{{ parseUINumber(tweet.public_metrics.retweet_count, ['Retweet', 'Retweets']) }}</span>
+                        <span>{{ parseUINumber(tweet.public_metrics.like_count, ['Like', 'Likes']) }}</span>
+                        <span>{{ parseUINumber(tweet.public_metrics.impression_count, ['View', 'Views']) }}</span>
                     </div>
                 </div>
             </li>

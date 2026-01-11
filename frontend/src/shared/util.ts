@@ -5,7 +5,7 @@
 */
 const MONTH_STRING = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export function parseUInumber(n?: number, singOrPlural?: [string, string]): string {
+export function parseUINumber(n?: number, singOrPlural?: [string, string]): string {
     let s = ''
     if (n == undefined) return s
     
