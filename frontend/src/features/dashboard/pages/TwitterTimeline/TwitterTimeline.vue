@@ -3,15 +3,36 @@
  -- Dashboard component for timeline view
 -->
 <script setup lang="ts">
+    import { ref } from 'vue'
+    import { postTweet } from '../../api/twitter.api';
     import { useTwitterStore } from '../../stores/twitter.store';
     import { parseUInumber, parseUIDate } from '@/shared/util';
 
+
+    const tweetText = ref<string>('')
     const store = useTwitterStore()
+
+
+    async function submitTweet() {
+        if (tweetText.value == '') {
+            return
+        }
+
+        const res = await postTweet(tweetText.value)
+        if (res.success) {
+            store.saveNewTweet(tweetText.value)
+            tweetText.value = ''
+        }
+    }
 </script>
 
 <template>
     <div v-if="store.timeline != null">
         <ul class="twitter-timeline">
+            <li class="twitter-input">
+                <textarea v-model="tweetText" placeholder="What's happening?" />
+                <button @click="submitTweet">Send</button>
+            </li>
             <li class="twitter-post" v-for="tweet in store.timeline.tweets">
                 <div class="post-pfp">
                     <img v-bind:src="store.userInfo?.profile_image_url" />
@@ -48,7 +69,32 @@
         
         border-width: 1px 1px 0px 1px;
         border-style: solid;
-        border-color: rgba(0, 0, 0, .4);
+        border-color: var(--border-faded);
+    }
+
+
+
+    .twitter-input {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        padding: 8px;
+        width: 100%;
+        border-bottom: 1px solid var(--border-faded);
+    }
+
+    .twitter-input > textarea {
+        padding: 8px;
+        min-height: 100px;
+        resize: none;
+    }
+
+    .twitter-input > button {
+        padding: 5px 10px;
+        width: 100%;
+        border: 1px solid var(--default-black);
+        border-radius: 4px;
     }
 
     .twitter-post {
@@ -58,7 +104,7 @@
         padding: 8px;
         width: 100%;
 
-        border-bottom: 1px solid rgba(0, 0, 0, .4);
+        border-bottom: 1px solid var(--border-faded);
     }
 
     .post-pfp > img {

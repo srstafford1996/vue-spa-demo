@@ -10,4 +10,5 @@
     --default-faded: #2F2F2F;
 
     --primary-faded: rgba(100,100,100, 0.4);
+    --border-faded: rgba(0, 0, 0, 0.4);
 }

@@ -40,13 +40,12 @@ export function parseUIDate(dateString: string): string {
     }
 
     if (secondsPassed < 60) {
-        return `${secondsPassed}s`
+        return `${secondsPassed.toFixed(0)}s`
     } 
 
     if (secondsPassed < 3600) {
-        return `${secondsPassed / 60}h`
+        return `${(secondsPassed / 60).toFixed(0)}m`
     }
 
-    let s = ''
-    return s;
+    return `${(secondsPassed / 3600).toFixed(0)}h`
 }

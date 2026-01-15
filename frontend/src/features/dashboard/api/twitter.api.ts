@@ -13,3 +13,10 @@ const httpClient = useHttpClient()
 export async function getTimeline(): Promise<ApiResult<RawTwitterTimeline>> {
     return httpClient.request<RawTwitterTimeline>('GET', '/api/timeline')
 }
+
+export async function postTweet(text: string): Promise<ApiResult<any>> {
+    // Backend takes request body of { text: string }
+    return httpClient.request<any>('POST', '/api/tweet', {
+        body: { text }
+    })
+}
